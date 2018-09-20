@@ -2,6 +2,7 @@ package com.unifyed.attendance.domains;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * Created by Aniket on 17/09/2018.
  */
 
-@Document(collection = "Faculty")
+@Document(collection = "UNIFYED_FACULTY")
 public class Faculty implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -24,8 +25,8 @@ public class Faculty implements Serializable {
 	private String firstName;
 	private String lastName;
 	private String college;
-	private Course course;
-	private Specialization specialization;
+	private List<String> courseId;
+	private List<String> specializationId;
 	
 	@CreatedDate
 	private Date createdDate = new Date();
@@ -68,20 +69,20 @@ public class Faculty implements Serializable {
 		this.college = college;
 	}
 
-	public Course getCourse() {
-		return course;
+	public List<String> getCourseId() {
+		return courseId;
 	}
 
-	public void setCourse(Course course) {
-		this.course = course;
+	public void setCourseId(List<String> courseId) {
+		this.courseId = courseId;
 	}
 
-	public Specialization getSpecialization() {
-		return specialization;
+	public List<String> getSpecializationId() {
+		return specializationId;
 	}
 
-	public void setSpecialization(Specialization specialization) {
-		this.specialization = specialization;
+	public void setSpecializationId(List<String> specializationId) {
+		this.specializationId = specializationId;
 	}
 
 	public Date getCreatedDate() {
@@ -115,10 +116,10 @@ public class Faculty implements Serializable {
 	@Override
 	public String toString() {
 		return "Faculty [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", college=" + college
-				+ ", course=" + course + ", specialization=" + specialization + ", createdDate=" + createdDate
+				+ ", course=" + courseId + ", specialization=" + specializationId + ", createdDate=" + createdDate
 				+ ", updatedDate=" + updatedDate + ", createdBy=" + createdBy + ", getId()=" + getId()
 				+ ", getFirstName()=" + getFirstName() + ", getLastName()=" + getLastName() + ", getCollege()="
-				+ getCollege() + ", getCourse()=" + getCourse() + ", getSpecialization()=" + getSpecialization()
+				+ getCollege() + ", getCourse()=" + getCourseId() + ", getSpecialization()=" + getSpecializationId()
 				+ ", getCreatedDate()=" + getCreatedDate() + ", getUpdatedDate()=" + getUpdatedDate()
 				+ ", getCreatedBy()=" + getCreatedBy() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
 				+ ", toString()=" + super.toString() + "]";

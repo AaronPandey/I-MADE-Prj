@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -63,7 +62,6 @@ public class FacultyService {
 		}
 	}
 
-	@SuppressWarnings("null")
 	public ResponseEntity<String> saveFacultyDetails(MultipartFile file) {
 		Workbook workbook;
 		try {
@@ -71,69 +69,79 @@ public class FacultyService {
 			System.out.println("Workbook has " + workbook.getNumberOfSheets() + " Sheets : ");
 			Sheet sheet = workbook.getSheetAt(0);
 			DataFormatter dataFormatter = new DataFormatter();
-			Faculty faculty = new Faculty();
+
 			Course tempCourse = null;
-			System.out.println("=====");
-			
+
 			Iterator<Row> rowIterator = sheet.rowIterator();
-	        while (rowIterator.hasNext()) {
-	            Row row = rowIterator.next();
-	            System.out.println("row: "+row.getRowNum());
-	           
-	            Iterator<Cell> cellIterator = row.cellIterator();
-	            if (row.getRowNum() > 0) {
-		            while (cellIterator.hasNext()) {
-		                Cell cell = cellIterator.next();
-		                String cellValue = dataFormatter.formatCellValue(cell);
-		                
-		                switch (cell.getColumnIndex()) {
-							case 0:
-								faculty.setFirstName(cellValue);
-								break;
-							case 1:
-								faculty.setLastName(cellValue);
-								break;
-							case 2:
-								faculty.setCollege(cellValue);
-								break;
-							case 3: {
-								Course course = courseRepository.findOneByCourse(cellValue);
-								
+			while (rowIterator.hasNext()) {
+				Row row = rowIterator.next();
+				Faculty faculty = new Faculty();
+				Iterator<Cell> cellIterator = row.cellIterator();
+				if (row.getRowNum() > 0) {
+					while (cellIterator.hasNext()) {
+						Cell cell = cellIterator.next();
+						String cellValue = dataFormatter.formatCellValue(cell);
+
+						switch (cell.getColumnIndex()) {
+						case 0:
+							faculty.setFirstName(cellValue);
+							break;
+						case 1:
+							faculty.setLastName(cellValue);
+							break;
+						case 2:
+							faculty.setCollege(cellValue);
+							break;
+						case 3: {
+							String[] courses = cellValue.split(",");
+							List<String> courseList = new ArrayList<String>();
+							for (String courseName : courses) {
+								Course course = courseRepository.findOneByCourse(courseName);
+
 								if (course == null) {
 									course = new Course();
-									course.setCourse(cellValue);
+									course.setCourse(courseName);
 									course.setStatus("active");
 									tempCourse = courseRepository.save(course);
-	
-									faculty.setCourse(course);
+									courseList.add(tempCourse.getId());
+
 								} else {
-									faculty.setCourse(course);
+									courseList.add(course.getId());
 								}
-								
-								System.out.println("cellValue===" +course);
-								break;
 							}
-							case 4: {
-								Specialization specialization = specializationRepository.findBySpecialization(cellValue);
+							faculty.setCourseId(courseList);
+
+							break;
+						}
+						case 4: {
+							String[] specializations = cellValue.split(",");
+							List<String> specializationList = new ArrayList<String>();
+							for (String specializationName : specializations) {
+								Specialization specialization = specializationRepository
+										.findBySpecialization(specializationName);
+
 								if (specialization == null) {
 									specialization = new Specialization();
-									specialization.setSpecialization(cellValue);
+									specialization.setSpecialization(specializationName);
 									specialization.setStatus("active");
 									specialization.setCourse(tempCourse);
-	
-									specializationRepository.save(specialization);
-									
-									faculty.setSpecialization(specialization);
+
+									Specialization specializationObj = specializationRepository.save(specialization);
+									specializationList.add(specializationObj.getId());
+
 								} else {
-									faculty.setSpecialization(specialization);
+									specializationList.add(specialization.getId());
 								}
-								break;
 							}
+							faculty.setSpecializationId(specializationList);
+
+							break;
 						}
-		            }
-		            facultyRepository.save(faculty);
-	            }
-	        }
+						}
+					}
+					facultyRepository.save(faculty);
+				}
+			}
 
 			return ResponseEntity.status(HttpStatus.OK).body("Faculty details saved successfully!!!");
 		} catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
