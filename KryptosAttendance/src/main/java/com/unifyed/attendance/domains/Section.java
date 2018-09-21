@@ -13,8 +13,8 @@ public class Section {
 	 private String id;
 	
 	private String section;
-	private Course course;
-	private Semester semester;
+	private String course;
+	private String semester;
 	private String status;
 
 	@CreatedDate
@@ -42,19 +42,19 @@ public class Section {
 		this.section = section;
 	}
 
-	public Course getCourse() {
+	public String getCourse() {
 		return course;
 	}
 
-	public void setCourse(Course course) {
+	public void setCourse(String course) {
 		this.course = course;
 	}
 
-	public Semester getSemester() {
+	public String getSemester() {
 		return semester;
 	}
 
-	public void setSemester(Semester semester) {
+	public void setSemester(String semester) {
 		this.semester = semester;
 	}
 

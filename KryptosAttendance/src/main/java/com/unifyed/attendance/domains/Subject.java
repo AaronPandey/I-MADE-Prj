@@ -27,7 +27,7 @@ public class Subject {
 	 
 	 @Indexed(name="subject_code", unique=true)
 	 private String subject_code;
-	 
+	 private String specialization;
 	 private String status;
 	 
 	 @CreatedDate
@@ -45,6 +45,16 @@ public class Subject {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	
+	
+	public String getSpecialization() {
+		return specialization;
+	}
+
+	public void setSpecialization(String specialization) {
+		this.specialization = specialization;
 	}
 
 	public String getSubject() {

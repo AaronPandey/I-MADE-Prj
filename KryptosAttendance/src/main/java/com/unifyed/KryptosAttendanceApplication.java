@@ -9,9 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.handler.MappedInterceptor;
 import org.springframework.context.annotation.Bean;
 
-/**
- * Created by Aniket on 16/08/2018.
- */
+
 @SpringBootApplication
 public class KryptosAttendanceApplication {
 
@@ -24,3 +22,4 @@ public class KryptosAttendanceApplication {
 		return new MappedInterceptor(new String[]{"/**"}, new UnifyedTenantInterceptor());
 	}
 }
+

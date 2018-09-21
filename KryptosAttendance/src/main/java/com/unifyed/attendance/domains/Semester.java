@@ -24,9 +24,9 @@ public class Semester implements Serializable {
 	private String id;
 
 	private String semester;
-	private Course course;
+	private String course;
 	private String status;
-	private Specialization specialization;
+	private String specialization;
 
 	@CreatedDate
 	private Date createdDate = new Date();
@@ -37,11 +37,11 @@ public class Semester implements Serializable {
 	@CreatedBy
 	private String createdBy;
 
-	public Course getCourse() {
+	public String getCourse() {
 		return course;
 	}
 
-	public void setCourse(Course course) {
+	public void setCourse(String course) {
 		this.course = course;
 	}
 
@@ -93,11 +93,11 @@ public class Semester implements Serializable {
 		this.createdBy = createdBy;
 	}
 	
-	public Specialization getSpecialization() {
+	public String getSpecialization() {
 		return specialization;
 	}
 
-	public void setSpecialization(Specialization specialization) {
+	public void setSpecialization(String specialization) {
 		this.specialization = specialization;
 	}
 

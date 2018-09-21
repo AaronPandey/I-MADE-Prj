@@ -10,9 +10,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- * Created by Aniket on 17/09/2018.
- */
 
 @Document(collection = "UNIFYED_FACULTY")
 public class Faculty implements Serializable {

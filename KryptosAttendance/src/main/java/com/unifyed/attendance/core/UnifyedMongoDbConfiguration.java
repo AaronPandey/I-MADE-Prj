@@ -1,6 +1,5 @@
 package com.unifyed.attendance.core;
 
-//import com.unifyed.messaging.domain.Messaging;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.context.annotation.Bean;
@@ -20,64 +19,65 @@ import com.mongodb.MongoClientOptions;
 @EnableMongoAuditing
 public class UnifyedMongoDbConfiguration {
 
+	@Bean
+	public MongoTemplate mongoTemplate(MongoProperties properties, ObjectProvider<MongoClientOptions> options,
+			Environment environment) throws Exception {
+		MultiTenantMongoDbFactory factory = mongoDbFactory(properties, options, environment);
+		MongoTemplate template = new MongoTemplate(factory);
+		factory.setMongoTemplate(template);
+		return template;
+	}
 
-    @Bean
-    public MongoTemplate mongoTemplate(MongoProperties properties,
-                                       ObjectProvider<MongoClientOptions> options, Environment environment) throws Exception {
-        MultiTenantMongoDbFactory factory = mongoDbFactory(properties, options, environment);
-        MongoTemplate template = new MongoTemplate(factory);
-        factory.setMongoTemplate(template);
-        return template;
-    }
+	@Bean
+	public MultiTenantMongoDbFactory mongoDbFactory(MongoProperties properties,
+			ObjectProvider<MongoClientOptions> options, Environment environment) throws Exception {
+		return new MultiTenantMongoDbFactory(properties.createMongoClient(options.getIfAvailable(), environment),
+				"test");
+	}
 
-    @Bean
-    public MultiTenantMongoDbFactory mongoDbFactory(MongoProperties properties,
-                                                    ObjectProvider<MongoClientOptions> options, Environment environment) throws Exception {
-        return new MultiTenantMongoDbFactory(properties.createMongoClient(options.getIfAvailable(), environment), "test");
-    }
-
-    @Bean
-    public AuditorAware<String> myAuditorProvider() {
-        return new SecurityAuditorAware();
-    }
+	@Bean
+	public AuditorAware<String> myAuditorProvider() {
+		return new SecurityAuditorAware();
+	}
 
 }
 
 @Configuration
 class ValidataionConfiguration {
-    @Bean
-    public ValidatingMongoEventListener validatingMongoEventListener() {
-        return new ValidatingMongoEventListener(validator());
-    }
+	@Bean
+	public ValidatingMongoEventListener validatingMongoEventListener() {
+		return new ValidatingMongoEventListener(validator());
+	}
 
-    @Bean
-    public LocalValidatorFactoryBean validator() {
-        return new LocalValidatorFactoryBean();
-    }
+	@Bean
+	public LocalValidatorFactoryBean validator() {
+		return new LocalValidatorFactoryBean();
+	}
 }
 
-//@Configuration
-//class RepositoryConfig extends RepositoryRestConfigurerAdapter {
-//    @Override
-//    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-//        config.exposeIdsFor(Messaging.class);
-//    }
-//}
+// @Configuration
+// class RepositoryConfig extends RepositoryRestConfigurerAdapter {
+// @Override
+// public void configureRepositoryRestConfiguration(RepositoryRestConfiguration
+// config) {
+// config.exposeIdsFor(Messaging.class);
+// }
+// }
 
 class SecurityAuditorAware implements AuditorAware<String> {
 
-    @Override
-    public String getCurrentAuditor() {
-        // TODO Auto-generated method stub
-        ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (sra == null) {
-            //System.out.println("fake");
-            //return new Faker().internet().emailAddress();
-            return "";
-        } else {
-            System.out.println("user");
-            return sra.getRequest().getHeader("principal-user");
-        }
-    }
+	@Override
+	public String getCurrentAuditor() {
+		// TODO Auto-generated method stub
+		ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+		if (sra == null) {
+			// System.out.println("fake");
+			// return new Faker().internet().emailAddress();
+			return "";
+		} else {
+			System.out.println("user");
+			return sra.getRequest().getHeader("principal-user");
+		}
+	}
 
 }

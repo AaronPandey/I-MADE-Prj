@@ -24,9 +24,8 @@ public class Specialization implements Serializable {
 	@Id
 	private String id;
 
-	@Indexed(name="specializationName", unique=true)
 	private String specialization;
-	private Course course;
+	private String course;
 	private String status;
 
 	@CreatedDate
@@ -54,11 +53,11 @@ public class Specialization implements Serializable {
 		this.specialization = specialization;
 	}
 
-	public Course getCourse() {
+	public String getCourse() {
 		return course;
 	}
 
-	public void setCourse(Course course) {
+	public void setCourse(String course) {
 		this.course = course;
 	}
 

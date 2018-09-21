@@ -10,9 +10,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- * Created by Aniket on 16/08/2018.
- */
 @Document(collection = "UNIFYED_COURSE")
 public class Course implements Serializable {
 
@@ -24,7 +21,6 @@ public class Course implements Serializable {
 	@Id
 	private String id;
 	
-	@Indexed(name="courseName", unique=true)
 	private String course;
 	
 	private String status;

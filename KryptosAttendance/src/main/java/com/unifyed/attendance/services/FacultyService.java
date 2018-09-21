@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -28,9 +31,6 @@ import com.unifyed.attendance.repository.CourseRepository;
 import com.unifyed.attendance.repository.FacultyRepository;
 import com.unifyed.attendance.repository.SpecializationRepository;
 
-/**
- * Created by Aniket on 18/09/2018.
- */
 @Service
 public class FacultyService {
 
@@ -124,7 +124,7 @@ public class FacultyService {
 									specialization = new Specialization();
 									specialization.setSpecialization(specializationName);
 									specialization.setStatus("active");
-									specialization.setCourse(tempCourse);
+									specialization.setCourse(tempCourse.getId());
 
 									Specialization specializationObj = specializationRepository.save(specialization);
 									specializationList.add(specializationObj.getId());
@@ -149,5 +149,43 @@ public class FacultyService {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unable to save faculty details !!!");
 		}
+	}
+
+	public String addfacultyPUT(Faculty faculty) {
+		facultyRepository.save(faculty);
+		return faculty.getId();
+	}
+	
+	public String addfacultyPOST(Map <String,String> faculty) {
+		Faculty fclty=new Faculty();
+		/*Course sourse= courseRepository.findOne(faculty.get("course").toString());
+		Specialization specialization=specializationRepository.findOne(faculty.get("specialization").toString());
+		fclty.setFirstName(faculty.get("firstName").toString());
+		fclty.setLastName(faculty.get("lastName").toString());
+		fclty.setCollege(faculty.get("college").toString());
+		fclty.setCourse(sourse.getId());
+		fclty.setSpecialization(specialization.getId());
+		facultyRepository.save(fclty);*/
+		return fclty.getId();
+	}
+
+	public List<Faculty> findAllFaculties() {
+		return facultyRepository.findAll();
+	}
+
+	public Faculty findFacltiesByID(String id) {
+		return facultyRepository.findOne(id);
+	}
+
+	public List<Faculty> findFacltiesByCourseId(String courseId) {
+		List<Faculty> allFacultyList = facultyRepository.findAll();
+		List<Faculty> listOfFacultiesByCourse = new ArrayList<>();
+		//Course course = courseRepository.findByCourse(courseId);
+		for (Faculty faculty : allFacultyList) {
+			if (null !=faculty.getCourseId() &&  faculty.getCourseId().contains(courseId)) {
+				listOfFacultiesByCourse.add(faculty);
+			}
+		}
+		return allFacultyList;
 	}
 }
