@@ -37,14 +37,6 @@ public class Semester implements Serializable {
 	@CreatedBy
 	private String createdBy;
 
-	public String getCourse() {
-		return course;
-	}
-
-	public void setCourse(String course) {
-		this.course = course;
-	}
-
 	public String getId() {
 		return id;
 	}
@@ -61,12 +53,28 @@ public class Semester implements Serializable {
 		this.semester = semester;
 	}
 
+	public String getCourse() {
+		return course;
+	}
+
+	public void setCourse(String course) {
+		this.course = course;
+	}
+
 	public String getStatus() {
 		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getSpecialization() {
+		return specialization;
+	}
+
+	public void setSpecialization(String specialization) {
+		this.specialization = specialization;
 	}
 
 	public Date getCreatedDate() {
@@ -92,23 +100,22 @@ public class Semester implements Serializable {
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
-	
-	public String getSpecialization() {
-		return specialization;
-	}
 
-	public void setSpecialization(String specialization) {
-		this.specialization = specialization;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override
 	public String toString() {
 		return "Semester [id=" + id + ", semester=" + semester + ", course=" + course + ", status=" + status
-				+ ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", createdBy=" + createdBy
-				+ ", getCourse()=" + getCourse() + ", getId()=" + getId() + ", getSemester()=" + getSemester()
-				+ ", getStatus()=" + getStatus() + ", getCreatedDate()=" + getCreatedDate() + ", getUpdatedDate()="
+				+ ", specialization=" + specialization + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate
+				+ ", createdBy=" + createdBy + ", getId()=" + getId() + ", getSemester()=" + getSemester()
+				+ ", getCourse()=" + getCourse() + ", getStatus()=" + getStatus() + ", getSpecialization()="
+				+ getSpecialization() + ", getCreatedDate()=" + getCreatedDate() + ", getUpdatedDate()="
 				+ getUpdatedDate() + ", getCreatedBy()=" + getCreatedBy() + ", getClass()=" + getClass()
 				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
+
+	
 
 }

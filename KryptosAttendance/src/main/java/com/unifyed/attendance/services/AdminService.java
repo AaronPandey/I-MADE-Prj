@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -47,6 +48,9 @@ public class AdminService {
 
 	@Autowired
 	MongoTemplate mongoTemplate;
+	
+	@Autowired
+	 MongoOperations mongoOperations;
 
 	public String postCourse(Course course) {
 		Course newCourse;
@@ -232,7 +236,6 @@ public class AdminService {
 		return newSubject;
 	}
 
-	
 	public Subject postSection(Map<String, Object> requestBody) throws JSONException {
 		System.out.println(requestBody);
 
@@ -261,7 +264,36 @@ public class AdminService {
 		 sub.setSubject_code(requestBody.get("subject_code").toString());
 		 sub.setSpecialization(requestBody.get("specialization").toString());
 		 sub.setStatus(requestBody.get("status").toString());
+		 sub.setSemester(requestBody.get("semester").toString());
 		 subjectRepository.save(sub);
 		 return sub;
+	}
+	
+	public List<Specialization> getSpecializationsByCourseId(Map<String, Object> requestBody) {
+		String courseId = requestBody.get("courseId").toString();
+		Query query = new Query();
+		query.addCriteria(Criteria.where("course").is(courseId));
+		List<Specialization> specializationList = mongoOperations.find(query, Specialization.class);
+
+		return specializationList;
+	}
+	
+	public List<Semester> getSemestersBySpecId(Map<String, Object> requestBody) {
+		String specId = requestBody.get("specId").toString();
+		Query query = new Query();
+		query.addCriteria(Criteria.where("specialization").is(specId));
+		List<Semester> semesterList = mongoOperations.find(query, Semester.class);
+
+		return semesterList;
+	}
+	
+	public List<Subject> getSubjectsBySemesterAndSpec(Map<String, Object> requestBody) {
+		String semesterId = requestBody.get("semesterId").toString();
+		String specializationId = requestBody.get("specId").toString();
+		Query query = new Query();
+		query.addCriteria(Criteria.where("specialization").is(specializationId).and("semester").is(semesterId));
+		List<Subject> subjectList = mongoOperations.find(query, Subject.class);
+
+		return subjectList;
 	}
 }

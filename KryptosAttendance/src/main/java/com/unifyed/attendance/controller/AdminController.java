@@ -10,29 +10,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unifyed.attendance.domains.ClassSchedule;
 import com.unifyed.attendance.domains.Course;
-import com.unifyed.attendance.domains.Faculty;
 import com.unifyed.attendance.domains.Room;
 import com.unifyed.attendance.domains.Semester;
 import com.unifyed.attendance.domains.Specialization;
 import com.unifyed.attendance.domains.Subject;
 import com.unifyed.attendance.services.AdminService;
-import com.unifyed.attendance.services.ClassService;
-import com.unifyed.attendance.services.FacultyService;
 
 @RestController
 public class AdminController {
 
 	@Autowired
 	private AdminService adminService;
-
-	@Autowired
-	private FacultyService facultyService;
 
 	@RequestMapping("/page")
 	public String hellopage() {
@@ -174,6 +166,30 @@ public class AdminController {
 			@RequestHeader(value = "principal-user") String principalUser,
 			@RequestHeader(value = "X-TENANT-ID") String tenantId) {
 		return adminService.getSubById(subId);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/admin/get/specializationsByCourse", method = RequestMethod.POST)
+	public List<Specialization> getSpecializationsByCourse(@RequestBody Map<String, Object>  requestBody,
+			@RequestHeader(value = "principal-user") String principalUser,
+			@RequestHeader(value = "X-TENANT-ID") String tenantId) {
+		return adminService.getSpecializationsByCourseId(requestBody);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/admin/get/semestersBySpecId", method = RequestMethod.POST)
+	public List<Semester> getSemestersBySpecializationId(@RequestBody Map<String, Object>  requestBody,
+			@RequestHeader(value = "principal-user") String principalUser,
+			@RequestHeader(value = "X-TENANT-ID") String tenantId) {
+		return adminService.getSemestersBySpecId(requestBody);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/admin/get/subjectsBySemesterAndSpecId", method = RequestMethod.POST)
+	public List<Subject> getSubjectsBySemesterAndSpecialization(@RequestBody Map<String, Object>  requestBody,
+			@RequestHeader(value = "principal-user") String principalUser,
+			@RequestHeader(value = "X-TENANT-ID") String tenantId) {
+		return adminService.getSubjectsBySemesterAndSpec(requestBody);
 	}
 
 }

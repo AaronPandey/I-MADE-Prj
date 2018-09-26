@@ -38,8 +38,8 @@ public class FacultyController {
 
 		if (status)
 			return facultyService.saveFacultyDetails(file);
-
-		return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).body("Failed");
+		else
+			return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).body("Failed");
 	}
 
 	@ResponseBody

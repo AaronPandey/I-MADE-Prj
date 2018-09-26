@@ -100,7 +100,7 @@ public class AttendanceService {
 		Specialization specialization = new Specialization();
 		specialization.setSpecialization(requestBody.get("specialization").toString());
 		specialization.setStatus(requestBody.get("status").toString());
-		specialization.setCourse(course);
+		specialization.setCourse(course.getId());
 
 		Specialization newSpecialization = specializationRepository.save(specialization);
 		System.out.println("Semester data saved");
@@ -149,15 +149,15 @@ public class AttendanceService {
 		Semester semester = new Semester();
 		semester.setSemester(requestBody.get("semester").toString());
 		semester.setStatus(requestBody.get("status").toString());
-		semester.setCourse(course);
-		semester.setSpecialization(specialization);
+		semester.setCourse(course.getId());
+		semester.setSpecialization(specialization.getId());
 
 		Semester newSem = semesterRepository.save(semester);
 		System.out.println("Semester data saved");
 
 		return newSem.toString();
 	}
-
+ 
 	public String putSemester(Map<String, Object> requestBody) {
 
 		Course course = courseRepository.findByCourse(requestBody.get("course").toString());

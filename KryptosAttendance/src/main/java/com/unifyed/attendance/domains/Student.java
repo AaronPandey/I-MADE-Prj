@@ -9,7 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection="UNIFYED_STUDENT")
+@Document(collection="student_details")
 public class Student implements Serializable{
 
 	/**
@@ -24,6 +24,10 @@ public class Student implements Serializable{
 	private String lastName;
 	private String rollNo;
 	private String regNo;
+	private String courseId;
+	private String specializationId;
+	private String semester;
+	
 	
 	@CreatedDate
 	private Date createDate;
@@ -74,6 +78,30 @@ public class Student implements Serializable{
 		this.regNo = regNo;
 	}
 
+	public String getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(String courseId) {
+		this.courseId = courseId;
+	}
+
+	public String getSpecializationId() {
+		return specializationId;
+	}
+
+	public void setSpecializationId(String specializationId) {
+		this.specializationId = specializationId;
+	}
+
+	public String getSemester() {
+		return semester;
+	}
+
+	public void setSemester(String semester) {
+		this.semester = semester;
+	}
+
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -98,14 +126,21 @@ public class Student implements Serializable{
 		this.createdBy = createdBy;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
 		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", rollNo=" + rollNo
-				+ ", regNo=" + regNo + ", createDate=" + createDate + ", updatedDate=" + updatedDate + ", createdBy="
-				+ createdBy + "]";
+				+ ", regNo=" + regNo + ", courseId=" + courseId + ", specializationId=" + specializationId
+				+ ", semester=" + semester + ", createDate=" + createDate + ", updatedDate=" + updatedDate
+				+ ", createdBy=" + createdBy + ", getId()=" + getId() + ", getFirstName()=" + getFirstName()
+				+ ", getLastName()=" + getLastName() + ", getRollNo()=" + getRollNo() + ", getRegNo()=" + getRegNo()
+				+ ", getCourseId()=" + getCourseId() + ", getSpecializationId()=" + getSpecializationId()
+				+ ", getSemester()=" + getSemester() + ", getCreateDate()=" + getCreateDate() + ", getUpdatedDate()="
+				+ getUpdatedDate() + ", getCreatedBy()=" + getCreatedBy() + ", getClass()=" + getClass()
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
-	
-	
-	
-	
+
 }

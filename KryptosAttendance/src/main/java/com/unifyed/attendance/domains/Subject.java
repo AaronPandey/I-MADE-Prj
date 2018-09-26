@@ -29,6 +29,7 @@ public class Subject {
 	 private String subject_code;
 	 private String specialization;
 	 private String status;
+	 private String semester;
 	 
 	 @CreatedDate
 	 private Date createdDate = new Date();
@@ -47,16 +48,6 @@ public class Subject {
 		this.id = id;
 	}
 
-	
-	
-	public String getSpecialization() {
-		return specialization;
-	}
-
-	public void setSpecialization(String specialization) {
-		this.specialization = specialization;
-	}
-
 	public String getSubject() {
 		return subject;
 	}
@@ -73,12 +64,28 @@ public class Subject {
 		this.subject_code = subject_code;
 	}
 
+	public String getSpecialization() {
+		return specialization;
+	}
+
+	public void setSpecialization(String specialization) {
+		this.specialization = specialization;
+	}
+
 	public String getStatus() {
 		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getSemester() {
+		return semester;
+	}
+
+	public void setSemester(String semester) {
+		this.semester = semester;
 	}
 
 	public Date getCreatedDate() {
@@ -111,12 +118,13 @@ public class Subject {
 
 	@Override
 	public String toString() {
-		return "Subject [id=" + id + ", subject=" + subject + ", subject_code=" + subject_code + ", status=" + status
-				+ ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", createdBy=" + createdBy
-				+ ", getId()=" + getId() + ", getSubject()=" + getSubject() + ", getSubject_code()=" + getSubject_code()
-				+ ", getStatus()=" + getStatus() + ", getCreatedDate()=" + getCreatedDate() + ", getUpdatedDate()="
-				+ getUpdatedDate() + ", getCreatedBy()=" + getCreatedBy() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
-	}
-	 
+		return "Subject [id=" + id + ", subject=" + subject + ", subject_code=" + subject_code + ", specialization="
+				+ specialization + ", status=" + status + ", semester=" + semester + ", createdDate=" + createdDate
+				+ ", updatedDate=" + updatedDate + ", createdBy=" + createdBy + ", getId()=" + getId()
+				+ ", getSubject()=" + getSubject() + ", getSubject_code()=" + getSubject_code()
+				+ ", getSpecialization()=" + getSpecialization() + ", getStatus()=" + getStatus() + ", getSemester()="
+				+ getSemester() + ", getCreatedDate()=" + getCreatedDate() + ", getUpdatedDate()=" + getUpdatedDate()
+				+ ", getCreatedBy()=" + getCreatedBy() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
+	} 
 }
