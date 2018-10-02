@@ -1,0 +1,76 @@
+#################################################################################
+# � 2017 UniFyd.  All Rights Reserved.
+#
+# CONFIDENTIAL BUSINESS INFORMATION
+# This software includes proprietary, trade secret and confidential
+# information of UniFyd Organization and its licensors.  Use of
+# this software is strictly subject to and governed by the terms
+# and conditions of a written software license agreement between
+# UniFyd Organization or its legal predecessor, and the
+# institution to which such license for use has been granted.
+#################################################################################
+# Application configurations
+server: 
+  port: 8888
+
+spring: 
+  application:
+    name: ImadeAttendance
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+     defaultZone: http://discovery:8052/unifyd-discovery/eureka/
+     #defaultZone: http://localhost:8052/unifyd-discovery/eureka/
+
+  instance:
+    hostname: http://discovery:8052/unifyd-discovery/eureka/
+    #hostname: http://localhost:8052/unifyd-discovery/eureka/
+    preferIpAddress: true
+
+hystrix:
+  metrics:
+    enabled: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+
+---
+spring:
+  profiles: prod
+  data:
+    mongodb:
+      uri: mongodb://${uname}:${pass}@UNIFYED-DB1-P:27017,UNIFYED-DB2-P:27017,UNIFYED-DB3-P:27017/admin?replicaSet=unifyed
+  rabbitmq:
+    host: 10.150.1.36
+    port: 32770
+    username: ${rabbitmqusername}
+    password: ${rabbitmqpassword}
+
+---
+spring:
+  profiles: stage
+  data:
+    mongodb:
+      uri: mongodb://${uname}:${pass}@UNIFYED-DB1-S:27017,UNIFYED-DB2-S:27017,UNIFYED-DB3-S:27017/admin?replicaSet=unifyedstage
+  rabbitmq:
+    host: 10.150.1.40
+    port: 32770
+    username: ${rabbitmqusername}
+    password: ${rabbitmqpassword}
+
+---
+spring:
+  profiles: dev
+  data:
+    mongodb:
+      uri: mongodb://${uname}:${pass}@172.16.25.65:27017,172.16.25.66:27017,172.16.25.67:27017/admin?replicaSet=unifyeddev
+  rabbitmq:
+    host: 172.16.25.66
+    port: 32770
+    username: guest
+    password: guest
